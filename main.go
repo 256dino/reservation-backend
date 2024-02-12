@@ -11,4 +11,5 @@ func main() {
 func handleFoo(c *fiber.Ctx) error {
 	return c.JSON(map[string]string{"msg": "Working"})
 }
- a
+
+func
