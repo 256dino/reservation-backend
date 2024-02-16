@@ -13,6 +13,12 @@ import (
 
 const dburi = "mongodb://localhost:27017"
 
+//var config = fiber.Config{
+//	ErrorHandler: func(c *fiber.Ctx, err error) error {
+//		return c.JSON(map[string]string{"error": err.Error()})
+//	},
+//}
+
 func main() {
 	listenAddr := flag.String("listenAddr", ":9000", "port address")
 	flag.Parse()
@@ -26,10 +32,9 @@ func main() {
 
 	app := fiber.New()
 	apiv1 := app.Group("/api/v1")
+	apiv1.Get("/user/:id", userHandler.HandleGetUsers)
+	insert := db.NewMongoUserStore(client)
+	insert.InsertUser(context.Background())
 
-	apiv1.Get("/user", userHandler.HandleGetUsers)
-	apiv1.Get("/user/:id", userHandler.HandleGetUser)
-	if err := app.Listen(*listenAddr); err != nil {
-		log.Fatal(err)
-	}
+	app.Listen(*listenAddr) // Should be last in main()
 }
