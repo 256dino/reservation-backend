@@ -32,9 +32,8 @@ func main() {
 
 	app := fiber.New()
 	apiv1 := app.Group("/api/v1")
-	apiv1.Get("/user/:id", userHandler.HandleGetUsers)
-	insert := db.NewMongoUserStore(client)
-	insert.InsertUser(context.Background())
+	apiv1.Post("/user", userHandler.HandlePostUser)
+	apiv1.Get("/user/", userHandler.HandleGetUsers)
 
 	app.Listen(*listenAddr) // Should be last in main()
 }
