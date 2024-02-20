@@ -1,12 +1,16 @@
 package types
 
 import (
+	"fmt"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
 )
 
 const (
-	bcryptCost = 12
+	bcryptCost   = 12
+	minFirstname = 3
+	minLastName  = 3
+	minPassword  = 7
 )
 
 type CreateUserParams struct {
@@ -22,6 +26,20 @@ type User struct {
 	Lastname          string             `bson:"_lastName" json:"lastName"`
 	Email             string             `bson:"_email" json:"email"`
 	EncryptedPassword string             `bson:"_encryptedPassword" json:"-"`
+}
+
+func (params CreateUserParams) Validate() error {
+	if len(params.FirstName) < minFirstname {
+		return fmt.Errorf("first name should be %d chars long", minFirstname)
+	}
+	if len(params.Lastname) < minLastName {
+		return fmt.Errorf("last name should be %d chars long", minLastName)
+	}
+	if len(params.Password) < minPassword {
+		return fmt.Errorf("passwqrd should be %d chars long", minPassword)
+	}
+	return nil
+
 }
 
 func NewUserParams(params CreateUserParams) (*User, error) {

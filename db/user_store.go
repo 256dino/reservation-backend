@@ -30,13 +30,13 @@ func NewMongoUserStore(client *mongo.Client) *MongoUserStore {
 }
 
 func (s *MongoUserStore) GetUsers(ctx context.Context) ([]*types.User, error) {
-	cur, err := s.coll.Find(ctx, bson.M{})
+	cur, err := s.coll.Find(ctx, bson.M{}) // bson query is empty placeholder
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	var users []*types.User
-	if err = cur.Decode(&users); err != nil {
+	if err = cur.All(ctx, &users); err != nil {
 		return []*types.User{}, err
 	}
 	return users, nil
