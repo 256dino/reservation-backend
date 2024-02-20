@@ -21,11 +21,11 @@ type CreateUserParams struct {
 }
 
 type User struct {
-	ID                primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
-	FirstName         string             `bson:"_firstName" json:"firstName"`
-	Lastname          string             `bson:"_lastName" json:"lastName"`
-	Email             string             `bson:"_email" json:"email"`
-	EncryptedPassword string             `bson:"_encryptedPassword" json:"-"`
+	ID                primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
+	FirstName         string             `bson:"firstName" json:"firstName"`
+	Lastname          string             `bson:"lastName" json:"lastName"`
+	Email             string             `bson:"email" json:"email"`
+	EncryptedPassword string             `bson:"encryptedPassword" json:"-"`
 }
 
 func (params CreateUserParams) Validate() error {
