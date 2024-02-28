@@ -17,6 +17,7 @@ type UserStore interface {
 	InsertUser(context.Context, *types.User) (*types.User, error)
 	DeleteUser(context.Context, string) error
 	UpdateUser(context.Context, bson.M, bson.M) error
+	Drop(context.Context) error
 }
 
 type MongoUserStore struct {
